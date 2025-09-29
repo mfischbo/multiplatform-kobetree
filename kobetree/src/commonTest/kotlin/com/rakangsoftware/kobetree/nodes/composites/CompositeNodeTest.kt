@@ -72,5 +72,6 @@ class CompositeNodeTest {
             // Implementation for testing
             return BehaviorStatus.SUCCESS
         }
+        override fun dump(indent: String): String { return "" }
     }
 }

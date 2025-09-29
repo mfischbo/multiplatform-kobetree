@@ -25,6 +25,8 @@ package com.rakangsoftware.kobetree.nodes.tasks
 import com.rakangsoftware.kobetree.core.BehaviorNode
 import com.rakangsoftware.kobetree.core.BehaviorStatus
 import com.rakangsoftware.kobetree.core.Blackboard
+import com.sun.org.apache.xpath.internal.XPathAPI.eval
+import kotlin.properties.Delegates
 
 /**
  * Task node that executes a condition and returns success or failure based on the condition's result.
@@ -35,8 +37,10 @@ import com.rakangsoftware.kobetree.core.Blackboard
  * @param blackboard The shared blackboard for the behavior tree.
  * @param condition The condition to execute, represented as a lambda that returns a boolean value.
  */
-class ConditionNode<T>(blackboard: T, val condition: () -> Boolean) :
-    BehaviorNode<T>(blackboard) {
+class ConditionNode<T>(blackboard: T, id: String = "", val condition: () -> Boolean) :
+    BehaviorNode<T>(blackboard, id) {
+
+    private var eval = false
 
     /**
      * Executes the condition node's logic.
@@ -47,10 +51,19 @@ class ConditionNode<T>(blackboard: T, val condition: () -> Boolean) :
      * @return The execution status of the condition node, which is either success or failure.
      */
     override fun execute(): BehaviorStatus {
-        return if (condition()) {
+        eval = condition()
+        return if (eval) {
             BehaviorStatus.SUCCESS
         } else {
             BehaviorStatus.FAILURE
         }
+    }
+
+    override fun toString(): String {
+        return "Cond[$id]"
+    }
+
+    override fun dump(indent: String): String {
+        return ("  $indent|--> [COND] $id: $eval")
     }
 }

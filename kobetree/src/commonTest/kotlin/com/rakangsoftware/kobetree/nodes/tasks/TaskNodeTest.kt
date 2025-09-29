@@ -67,7 +67,7 @@ class TaskNodeTests {
         val task = {
             expectedStatus
         }
-        val taskNode = TaskNode(blackboard, task)
+        val taskNode = TaskNode(blackboard, "", task)
 
         // Verify that the task node's task matches the expected task
         assertEquals(taskNode.task, task)

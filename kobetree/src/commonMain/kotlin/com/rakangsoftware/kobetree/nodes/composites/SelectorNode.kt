@@ -33,7 +33,7 @@ import com.rakangsoftware.kobetree.core.Blackboard
  *
  * @param blackboard The shared blackboard for the behavior tree.
  */
-open class SelectorNode<T>(blackboard: T) : CompositeNode<T>(blackboard) {
+open class SelectorNode<T>(blackboard: T, id: String = "",) : CompositeNode<T>(blackboard, id) {
 
     /**
      * Executes the selector node's logic.
@@ -51,5 +51,9 @@ open class SelectorNode<T>(blackboard: T) : CompositeNode<T>(blackboard) {
             }
         }
         return BehaviorStatus.FAILURE
+    }
+
+    override fun toString(): String {
+        return "Selector [$id]"
     }
 }

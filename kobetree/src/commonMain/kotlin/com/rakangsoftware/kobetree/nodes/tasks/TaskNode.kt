@@ -25,6 +25,7 @@ package com.rakangsoftware.kobetree.nodes.tasks
 import com.rakangsoftware.kobetree.core.BehaviorNode
 import com.rakangsoftware.kobetree.core.BehaviorStatus
 import com.rakangsoftware.kobetree.core.Blackboard
+import com.sun.org.apache.xpath.internal.XPathAPI.eval
 
 /**
  * Task node that executes a provided task and returns the task's execution status.
@@ -35,8 +36,9 @@ import com.rakangsoftware.kobetree.core.Blackboard
  * @param blackboard The shared blackboard for the behavior tree.
  * @param task The task to execute, represented as a lambda that returns a BehaviorStatus.
  */
-class TaskNode<T>(blackboard: T, val task: () -> BehaviorStatus) : BehaviorNode<T>(blackboard) {
+class TaskNode<T>(blackboard: T, id: String = "", val task: () -> BehaviorStatus) : BehaviorNode<T>(blackboard, id) {
 
+    private var result: BehaviorStatus? = null
     /**
      * Executes the task node's logic.
      *
@@ -45,6 +47,15 @@ class TaskNode<T>(blackboard: T, val task: () -> BehaviorStatus) : BehaviorNode<
      * @return The execution status of the task node, which is determined by the executed task.
      */
     override fun execute(): BehaviorStatus {
-        return task()
+        result = task()
+        return result!!
+    }
+
+    override fun dump(indent: String): String {
+        return ("  $indent|--> [TASK] $id: ${result ?: "not executed"}")
+    }
+
+    override fun toString(): String {
+        return "Task[$id]"
     }
 }

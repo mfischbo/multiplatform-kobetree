@@ -34,7 +34,7 @@ import com.rakangsoftware.kobetree.core.Blackboard
  *
  * @param blackboard The shared blackboard for the behavior tree.
  */
-class InverterNode<T>(blackboard: T) : DecoratorNode<T>(blackboard) {
+class InverterNode<T>(blackboard: T, id: String = "") : DecoratorNode<T>(blackboard, id) {
 
     /**
      * Executes the inverter node's logic.

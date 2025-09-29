@@ -25,6 +25,7 @@ package com.rakangsoftware.kobetree.nodes.tasks
 import com.rakangsoftware.kobetree.core.BehaviorNode
 import com.rakangsoftware.kobetree.core.BehaviorStatus
 import com.rakangsoftware.kobetree.core.Blackboard
+import com.sun.org.apache.xpath.internal.XPathAPI.eval
 
 /**
  * Task node that repeats the execution of its child node a specified number of times.
@@ -42,6 +43,7 @@ class RepeaterNode<T>(blackboard: T, val times: Int, val child: BehaviorNode<T>)
 
     // Counter to keep track of the number of repetitions
     private var counter = 0
+    private lateinit var result: BehaviorStatus
 
     /**
      * Executes the repeater node's logic.
@@ -54,16 +56,22 @@ class RepeaterNode<T>(blackboard: T, val times: Int, val child: BehaviorNode<T>)
      */
     override fun execute(): BehaviorStatus {
         while (times == -1 || counter < times) {
-            val status = child.execute()
-            if (status != BehaviorStatus.RUNNING) {
+            result = child.execute()
+            if (result != BehaviorStatus.RUNNING) {
                 counter++
                 if (times != -1 && counter >= times) {
-                    return status
+                    return result
                 }
             } else {
-                return BehaviorStatus.RUNNING
+                result = BehaviorStatus.RUNNING
+                return result
             }
         }
-        return BehaviorStatus.SUCCESS
+        result = BehaviorStatus.SUCCESS
+        return result
+    }
+
+    override fun dump(indent: String): String {
+        return ("  $indent--> $id: $result\n")
     }
 }

@@ -34,7 +34,7 @@ import com.rakangsoftware.kobetree.core.NodeContainer
  *
  * @param blackboard The shared blackboard for the behavior tree.
  */
-abstract class DecoratorNode<T>(blackboard: T) : NodeContainer<T>(blackboard) {
+abstract class DecoratorNode<T>(blackboard: T, id: String) : NodeContainer<T>(blackboard, id) {
 
     // Private list to store the single child BehaviorNode
     private val _children = mutableListOf<BehaviorNode<T>>()

@@ -84,5 +84,6 @@ class InverterNodeTest {
         private val returnStatus: BehaviorStatus
     ) : BehaviorNode<Blackboard>(blackboard) {
         override fun execute(): BehaviorStatus = returnStatus
+        override fun dump(indent: String): String { return "" }
     }
 }

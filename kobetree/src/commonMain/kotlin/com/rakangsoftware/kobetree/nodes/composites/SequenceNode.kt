@@ -33,7 +33,9 @@ import com.rakangsoftware.kobetree.core.Blackboard
  *
  * @param blackboard The shared blackboard for the behavior tree.
  */
-open class SequenceNode<T>(blackboard: T) : CompositeNode<T>(blackboard) {
+open class SequenceNode<T>(blackboard: T, id: String = "") : CompositeNode<T>(blackboard, id) {
+
+    private var status: BehaviorStatus? = null
 
     /**
      * Executes the sequence node's logic.
@@ -45,11 +47,16 @@ open class SequenceNode<T>(blackboard: T) : CompositeNode<T>(blackboard) {
      */
     override fun execute(): BehaviorStatus {
         for (child in children) {
-            val status = child.execute()
+            status = child.execute()
             if (status != BehaviorStatus.SUCCESS) {
-                return status
+                return status!!
             }
         }
+        status = BehaviorStatus.SUCCESS
         return BehaviorStatus.SUCCESS
+    }
+
+    override fun toString(): String {
+        return "Sequence [$id]: ${status ?: "not executed"}"
     }
 }

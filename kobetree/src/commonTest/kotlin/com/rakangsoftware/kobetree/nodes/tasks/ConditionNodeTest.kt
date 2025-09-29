@@ -66,7 +66,7 @@ class ConditionNodeTests {
         val condition = {
             true
         }
-        val conditionNode = ConditionNode(blackboard, condition)
+        val conditionNode = ConditionNode(blackboard, "foo", condition)
 
         // Verify that the condition node's condition matches the expected condition
         assertEquals(conditionNode.condition, condition)

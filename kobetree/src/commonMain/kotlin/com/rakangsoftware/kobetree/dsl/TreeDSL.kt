@@ -42,8 +42,8 @@ import com.rakangsoftware.kobetree.nodes.tasks.TaskNode
  * @param init A lambda block where you can define child nodes for the SelectorNode.
  * @return The created SelectorNode with its child nodes.
  */
-fun <T> selector(blackboard: T, init: NodeContainer<T>.() -> Unit): NodeContainer<T> {
-    val selector = SelectorNode(blackboard)
+fun <T> selector(blackboard: T, id: String = "", init: NodeContainer<T>.() -> Unit): NodeContainer<T> {
+    val selector = SelectorNode(blackboard, id)
     selector.init()
     return selector
 }
@@ -55,8 +55,8 @@ fun <T> selector(blackboard: T, init: NodeContainer<T>.() -> Unit): NodeContaine
  *
  * @param init A lambda block where you can define child nodes to be added to the SelectorNode.
  */
-fun <T> NodeContainer<T>.selector(init: NodeContainer<T>.() -> Unit) {
-    val childNode = SelectorNode(this.blackboard)
+fun <T> NodeContainer<T>.selector(id: String = "", init: NodeContainer<T>.() -> Unit) {
+    val childNode = SelectorNode(this.blackboard, id)
     childNode.init()
     children.add(childNode)
 }
@@ -71,8 +71,8 @@ fun <T> NodeContainer<T>.selector(init: NodeContainer<T>.() -> Unit) {
  * @param init A lambda block where you can define child nodes for the SequenceNode.
  * @return The created SequenceNode with its child nodes.
  */
-fun <T> sequence(blackboard: T, init: NodeContainer<T>.() -> Unit): NodeContainer<T> {
-    val selector = SequenceNode<T>(blackboard)
+fun <T> sequence(blackboard: T, id: String = "", init: NodeContainer<T>.() -> Unit): NodeContainer<T> {
+    val selector = SequenceNode<T>(blackboard, id)
     selector.init()
     return selector
 }
@@ -84,8 +84,8 @@ fun <T> sequence(blackboard: T, init: NodeContainer<T>.() -> Unit): NodeContaine
  *
  * @param init A lambda block where you can define child nodes to be added to the SequenceNode.
  */
-fun <T> NodeContainer<T>.sequence(init: NodeContainer<T>.() -> Unit) {
-    val childNode = SequenceNode(this.blackboard)
+fun <T> NodeContainer<T>.sequence(id: String = "", init: NodeContainer<T>.() -> Unit) {
+    val childNode = SequenceNode(this.blackboard, id)
     childNode.init()
     children.add(childNode)
 }
@@ -100,8 +100,8 @@ fun <T> NodeContainer<T>.sequence(init: NodeContainer<T>.() -> Unit) {
  * @param init A lambda block where you can define child nodes for the InverterNode.
  * @return The created InverterNode with its child nodes.
  */
-fun <T> inverter(blackboard: T, init: NodeContainer<T>.() -> Unit): NodeContainer<T> {
-    val inverter = InverterNode(blackboard)
+fun <T> inverter(blackboard: T, id: String = "", init: NodeContainer<T>.() -> Unit): NodeContainer<T> {
+    val inverter = InverterNode(blackboard, id)
     inverter.init()
     return inverter
 }
@@ -114,7 +114,7 @@ fun <T> inverter(blackboard: T, init: NodeContainer<T>.() -> Unit): NodeContaine
  * @param init A lambda block where you can define child nodes to be added to the InverterNode.
  */
 fun <T> NodeContainer<T>.inverter(init: NodeContainer<T>.() -> Unit) {
-    val inverter = InverterNode(this.blackboard)
+    val inverter = InverterNode(this.blackboard, id)
     inverter.init()
     children.add(inverter)
 }
@@ -128,8 +128,8 @@ fun <T> NodeContainer<T>.inverter(init: NodeContainer<T>.() -> Unit) {
  * @param task A lambda representing the custom task to be executed.
  * @return The created TaskNode.
  */
-fun <T> task(blackboard: T, task: () -> BehaviorStatus): BehaviorNode<T> {
-    return TaskNode(blackboard, task)
+fun <T> task(blackboard: T, id: String = "", task: () -> BehaviorStatus): BehaviorNode<T> {
+    return TaskNode(blackboard, id, task)
 }
 
 /**
@@ -139,8 +139,8 @@ fun <T> task(blackboard: T, task: () -> BehaviorStatus): BehaviorNode<T> {
  *
  * @param task A lambda representing the custom task to be executed.
  */
-fun <T> NodeContainer<T>.task(task: () -> BehaviorStatus) {
-    val childNode = TaskNode(this.blackboard, task)
+fun <T> NodeContainer<T>.task(id: String = "", task: () -> BehaviorStatus) {
+    val childNode = TaskNode(this.blackboard, id, task)
     children.add(childNode)
 }
 
@@ -153,8 +153,8 @@ fun <T> NodeContainer<T>.task(task: () -> BehaviorStatus) {
  * @param condition A lambda representing the custom condition to be evaluated.
  * @return The created ConditionNode.
  */
-fun <T> condition(blackboard: T, condition: () -> Boolean): ConditionNode<T> {
-    return ConditionNode(blackboard, condition)
+fun <T> condition(blackboard: T, id: String = "", condition: () -> Boolean): ConditionNode<T> {
+    return ConditionNode(blackboard, id, condition)
 }
 
 /**
@@ -164,7 +164,7 @@ fun <T> condition(blackboard: T, condition: () -> Boolean): ConditionNode<T> {
  *
  * @param condition A lambda representing the custom condition to be evaluated.
  */
-fun <T> NodeContainer<T>.condition(condition: () -> Boolean) {
-    val childNode = ConditionNode(this.blackboard, condition)
+fun <T> NodeContainer<T>.condition(id: String = "", condition: () -> Boolean) {
+    val childNode = ConditionNode(this.blackboard, id, condition)
     children.add(childNode)
 }

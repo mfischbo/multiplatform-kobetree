@@ -30,7 +30,7 @@ package com.rakangsoftware.kobetree.core
  *
  * @param blackboard The shared blackboard for the behavior tree.
  */
-abstract class NodeContainer<T>(blackboard: T) : BehaviorNode<T>(blackboard) {
+abstract class NodeContainer<T>(blackboard: T, id: String) : BehaviorNode<T>(blackboard, id) {
 
     /**
      * The list to store child BehaviorNodes.
@@ -47,4 +47,10 @@ abstract class NodeContainer<T>(blackboard: T) : BehaviorNode<T>(blackboard) {
      * @param node The child BehaviorNode to add.
      */
     abstract fun addChild(node: BehaviorNode<T>)
+
+    override fun dump(indent: String): String {
+        val k = "  $indent|--> ${toString()}\n"
+        val kc = children.joinToString("\n") { it.dump("  $indent") }
+        return "$k$kc"
+    }
 }

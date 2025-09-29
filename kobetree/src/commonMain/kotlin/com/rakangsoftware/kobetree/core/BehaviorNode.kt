@@ -30,7 +30,7 @@ package com.rakangsoftware.kobetree.core
  *
  * @param blackboard The shared blackboard for the behavior tree.
  */
-abstract class BehaviorNode<T>(val blackboard: T) {
+abstract class BehaviorNode<T>(val blackboard: T, val id: String = "") {
     /**
      * Execute the behavior node's logic and return the execution status.
      *
@@ -40,4 +40,6 @@ abstract class BehaviorNode<T>(val blackboard: T) {
      * @return The execution status of the behavior node.
      */
     abstract fun execute(): BehaviorStatus
+
+    abstract fun dump(indent: String = ""): String
 }
